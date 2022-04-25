@@ -6,11 +6,13 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.*;
 
 
-public class Calc extends JFrame implements ActionListener {
+public class Calc extends JFrame implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	JFrame frame;
@@ -24,6 +26,7 @@ public class Calc extends JFrame implements ActionListener {
         textField = new JTextField();
         textField.setBounds(80,80, 510, 50);
         textField.setFont(new Font(textField.getFont().getName(), Font.BOLD, 16));
+        textField.addKeyListener(this);
 
         content.add(textField);
 
@@ -48,12 +51,33 @@ public class Calc extends JFrame implements ActionListener {
         setResizable(false);
     }
 
+
+	@Override
+	public void keyTyped(KeyEvent keyEvent) { //this is working
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent keyEvent) {
+	}
+
+	@Override
+	public void keyReleased(KeyEvent keyEvent) {
+		if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
+			str = textField.getText();
+			double res = calculate();
+			String resString = Double.toString(res);
+			textField.setText(resString);
+			str = "";
+		}		
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		String evString = event.getActionCommand();
 		
-		if (evString == "=" && str != "") {
+		if (evString == "=") {
 			try {
+				str = textField.getText();
 				double res = calculate();
 				String resString = Double.toString(res);
 				textField.setText(resString);
@@ -76,6 +100,7 @@ public class Calc extends JFrame implements ActionListener {
 			}
 		}
 		else {
+			str = textField.getText();
 			str += evString;
 			textField.setText(str);
 		}
@@ -167,5 +192,7 @@ public class Calc extends JFrame implements ActionListener {
         myApp.init();
         
     }
+
+
 	
 }

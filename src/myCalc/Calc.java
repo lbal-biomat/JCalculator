@@ -108,6 +108,8 @@ public class Calc extends JFrame implements ActionListener, KeyListener {
     
     
     public double calculate() {
+    	//TODO: add support for trigonometric functions in radians, 
+    	//TODO: add pi, sin, cos, tan, buttons, radio button for radians/degrees
         return new Object() {
             int pos = -1, ch;
             
@@ -153,7 +155,7 @@ public class Calc extends JFrame implements ActionListener, KeyListener {
             double parseFactor() {
                 if (eat('+')) return +parseFactor(); // unary plus
                 if (eat('-')) return -parseFactor(); // unary minus
-                
+                if (eat('√')) return Math.sqrt(parseFactor()); //squre root
                 double x;
                 int startPos = this.pos;
                 if (eat('(')) { // parentheses
@@ -162,7 +164,7 @@ public class Calc extends JFrame implements ActionListener, KeyListener {
                 } else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
                     while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
                     x = Double.parseDouble(str.substring(startPos, this.pos));
-                } else if (ch >= 'a' && ch <= 'z') { // functions
+                } else if (ch >= 'a' && ch <= 'z') { // functions0.0
                     while (ch >= 'a' && ch <= 'z') nextChar();
                     String func = str.substring(startPos, this.pos);
                     if (eat('(')) {
@@ -180,7 +182,9 @@ public class Calc extends JFrame implements ActionListener, KeyListener {
                     throw new RuntimeException("Unexpected: " + (char)ch);
                 }
                 
+                if (eat('%')) x = x % parseFactor(); //modulo
                 if (eat('^')) x = Math.pow(x, parseFactor()); // exponentiation
+                
                 
                 return x;
             }

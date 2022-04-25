@@ -42,7 +42,7 @@ public class Calc extends JFrame implements ActionListener {
     	arrButtons[22].setBounds(440,440,150,60); // = button has different size
     	arrButtons[22].setBackground(Color.decode("#138a07"));
     	setSize(new Dimension(670, 650));
-        setTitle("Calc");
+        setTitle("JCalculator");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);

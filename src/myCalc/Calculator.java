@@ -13,7 +13,6 @@ public class Calculator {
 	}
 	
     public double eval(boolean radians) {
-    	//TODO: fix precision issue
         double d = new Object() {
             int pos = -1, ch;
             

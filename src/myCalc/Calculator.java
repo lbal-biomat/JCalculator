@@ -1,14 +1,20 @@
 package myCalc;
 
+import java.math.BigDecimal;
+import java.math.MathContext;      
 
 public class Calculator {
     
 	public String str = "";
 	
+	public String toPrecision(double d, int digits) {
+	    String s = String.format("%."+((digits>0)?digits:16)+"g",d).replace("e+0","e+").replace("e-0","e-");
+	    return s;
+	}
 	
     public double eval(boolean radians) {
     	//TODO: fix precision issue
-        return new Object() {
+        double d = new Object() {
             int pos = -1, ch;
             
             void nextChar() {
@@ -126,5 +132,10 @@ public class Calculator {
                 return x;
             }
         }.parse();
+        double res = new BigDecimal(d, MathContext.DECIMAL32).doubleValue();
+        if (Math.abs(res) < 1E-15) {
+        	res = 0;
+        }
+        return res;
     }
 }
